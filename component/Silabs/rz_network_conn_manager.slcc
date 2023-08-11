@@ -1,0 +1,43 @@
+id: rz_network_conn_manager
+package: raz1_custom_components
+label: Zigbee Network Connection manager
+description: >
+  Connection manager. Tries to join the network if there's no connection.
+
+category: Zigbee|Services
+quality: evaluation
+
+root_path: src/components
+requires:
+  - name: rz_led_blink
+  - name: zigbee_network_steering
+
+config_file:
+  - file_id: rz_network_conn_manager
+    path: rz_network_conn_manager/config/rz_network_conn_manager_config.h
+
+provides:
+  - name: rz_network_conn_manager
+
+template_contribution:
+  - name: component_catalog
+    value: rz_network_connection_manager
+
+  - name: event_handler
+    value:
+      event: service_init
+      include: "rz_network_conn_manager.h"
+      handler: "rz_network_conn_manager_init"
+
+  - name: zigbee_stack_callback
+    value:
+      callback_type: stack_status
+      function_name: rz_network_conn_manager_stack_status_callback
+
+include:
+  - path: rz_network_conn_manager
+    file_list:
+      - path: rz_network_conn_manager.h
+
+source:
+  - path: rz_network_conn_manager/rz_network_conn_manager.c
