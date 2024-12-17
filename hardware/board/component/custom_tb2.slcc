@@ -1,0 +1,94 @@
+id: custom_tb2
+label: Custom_TB2
+package: platform
+description: Custom Board support for custom_tb2.
+category: Boards
+quality: production
+requires:
+- name: efr32mg12p332f1024gl125
+provides:
+- name: hardware_board_has_vcom
+- name: hardware_board_has_hfxo_freq_38.4mhz
+- name: hardware_board_has_hfxo
+- name: hardware_board_supports_rf_band_2400
+- name: hardware_board_supports_1_rf_band
+- name: hardware_board_default_rf_band
+- name: hardware_board_default_rf_band_2400
+recommends:
+- id: iostream_usart
+  instance:
+  - vcom
+- id: bootloader_uart_driver
+- id: simple_led
+  instance:
+  - led0
+  - led1
+- id: simple_button
+  instance:
+  - btn0
+  - btn1
+template_contribution: []
+define:
+- name: HFXO_FREQ
+  value: 38400000
+- name: HARDWARE_BOARD_SUPPORTS_RF_BAND_2400
+- name: HARDWARE_BOARD_SUPPORTS_1_RF_BAND
+- name: HARDWARE_BOARD_DEFAULT_RF_BAND_2400
+tag:
+- hardware:has:pti
+- hardware:has:led:2
+- hardware:has:button:2
+- hardware:has:exp_header:spi
+- hardware:has:exp_header:uart
+- hardware:has:exp_header:i2c
+root_path: hardware/board/config
+config_file:
+  - override:
+      component: device_init_hfxo
+      file_id: device_init_hfxo_config
+    path: custom_tb2/sl_device_init_hfxo_config.h
+  - override:
+      component: iostream_leuart
+      file_id: iostream_leuart_config
+      instance: vcom
+    path: custom_tb2/sl_iostream_leuart_vcom_config.h
+  - override:
+      component: iostream_usart
+      file_id: iostream_usart_config
+      instance: vcom
+    path: custom_tb2/sl_iostream_usart_vcom_config.h
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+    path: custom_tb2/sl_simple_button_btn0_config.h
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn1
+    path: custom_tb2/sl_simple_button_btn1_config.h
+  - override:
+      component: simple_led
+      file_id: simple_led_config
+      instance: led0
+    path: custom_tb2/sl_simple_led_led0_config.h
+  - override:
+      component: simple_led
+      file_id: simple_led_config
+      instance: led1
+    path: custom_tb2/sl_simple_led_led1_config.h
+  - override:
+      component: simple_rgb_pwm_led
+      file_id: simple_rgb_pwm_led_config
+      instance: rgb_led0
+    path: custom_tb2/sl_simple_rgb_pwm_led_rgb_led0_config.h
+  - override:
+      component: uartdrv_leuart
+      file_id: uartdrv_leuart_config
+      instance: vcom
+    path: custom_tb2/sl_uartdrv_leuart_vcom_config.h
+  - override:
+      component: uartdrv_usart
+      file_id: uartdrv_usart_config
+      instance: vcom
+    path: custom_tb2/sl_uartdrv_usart_vcom_config.h
