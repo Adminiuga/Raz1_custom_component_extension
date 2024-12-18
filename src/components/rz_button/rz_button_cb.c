@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-#include "af.h"
+#include "sl_common.h"
 
 #include "rz_button.h"
 
@@ -34,7 +34,7 @@
  *
  * @param button Button number
  */
-WEAK(void rz_button_short_press_cb(uint8_t button)) {
+SL_WEAK void rz_button_short_press_cb(uint8_t button) {
 }
 
 /* @brief Button short duration press callback
@@ -44,8 +44,8 @@ WEAK(void rz_button_short_press_cb(uint8_t button)) {
  * @param button Button number
  * @param counter Button was pressed so many times in quick succession
  */
-WEAK(void rz_button_counted_short_press_cb(uint8_t button,
-                uint8_t counter)) {
+SL_WEAK void rz_button_counted_short_press_cb(uint8_t button,
+                uint8_t counter) {
 }
 
 /* @brief Button medium duration press callback
@@ -54,7 +54,7 @@ WEAK(void rz_button_counted_short_press_cb(uint8_t button,
  *
  * @param button Button number
  */
-WEAK(void rz_button_medium_press_cb(uint8_t button)) {
+SL_WEAK void rz_button_medium_press_cb(uint8_t button) {
 }
 
 /* @brief Button long duration press callback
@@ -63,5 +63,5 @@ WEAK(void rz_button_medium_press_cb(uint8_t button)) {
  *
  * @param button Button number
  */
-WEAK(void rz_button_long_press_cb(uint8_t button)) {
+SL_WEAK void rz_button_long_press_cb(uint8_t button) {
 }
