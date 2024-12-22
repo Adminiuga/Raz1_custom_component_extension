@@ -95,6 +95,13 @@
 
 // [TIMER_SL_SIMPLE_RGB_PWM_LED_RGB_LED0]$
 
+// <gpio> SL_SIMPLE_SIMPLE_RGB_ENABLE
+// $[GPIO_SL_SIMPLE_RGB_ENABLE]
+#define SL_SIMPLE_RGB_ENABLE_PORT               gpioPortJ
+#define SL_SIMPLE_RGB_ENABLE_PIN                14
+
+// [GPIO_SL_SIMPLE_BUTTON_BTN0]$
+
 // <<< sl:end pin_tool >>>
 
 #endif // SL_SIMPLE_RGB_PWM_LED_RGB_LED0_CONFIG_H
