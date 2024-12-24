@@ -1,0 +1,40 @@
+id: rz_button_press
+package: raz1_custom_components
+label: Counted Button Press
+description: >
+  Count short button presses. On short button presses calls rz_button_short_press_cb()
+  alternatively application could use rz_button_counted_short_press_cb(), rz_button_medium_press_cb()
+  or rz_button_long_press_cb()
+
+category: Application|Utility|Counted Button Press
+quality: evaluation
+
+root_path: src/components
+requires:
+  - name: app_button_press
+
+config_file:
+  - file_id: rz_button_press
+    path: rz_button/config/rz_button_config.h
+
+provides:
+  - name: rz_button_press
+
+template_contribution:
+  - name: component_catalog
+    value: rz_button_press
+
+  - name: event_handler
+    value:
+      event: service_init
+      include: "rz_button.h"
+      handler: "rz_button_init"
+
+include:
+  - path: rz_button
+    file_list:
+      - path: rz_button.h
+
+source:
+  - path: rz_button/rz_button.c
+  - path: rz_button/rz_button_cb.c

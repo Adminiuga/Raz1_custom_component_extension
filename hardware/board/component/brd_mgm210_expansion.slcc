@@ -1,0 +1,62 @@
+id: brd_mgm210_expansion
+label: Custom Expansiong Board for MGM210 SOC Module
+package: platform
+description: Custom Expansion Board support for MGM210 module. https://github.com/Adminiuga/MGM210-Expansion
+category: Boards
+quality: production
+requires: []
+provides:
+- name: hardware_board_has_vcom
+- name: hardware_board_supports_rf_band_2400
+- name: hardware_board_default_rf_band
+- name: hardware_board_default_rf_band_2400
+recommends:
+- id: iostream_usart
+  instance:
+  - vcom
+- id: bootloader_uart_driver
+- id: simple_led
+  instance:
+  - led0
+- id: simple_rgb_pwm_led
+  instance:
+  - rgb_led0
+- id: simple_button
+  instance:
+  - btn0
+template_contribution: []
+define:
+- name: HARDWARE_BOARD_SUPPORTS_RF_BAND_2400
+- name: HARDWARE_BOARD_SUPPORTS_1_RF_BAND
+- name: HARDWARE_BOARD_DEFAULT_RF_BAND_2400
+tag:
+- hardware:has:pti
+- hardware:has:led:1
+- hardware:has:button:1
+root_path: hardware/board/config
+config_file:
+  - override:
+      component: iostream_usart
+      file_id: iostream_usart_config
+      instance: vcom
+    path: brd_mgm210_expansion/sl_iostream_usart_vcom_config.h
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+    path: brd_mgm210_expansion/sl_simple_button_btn0_config.h
+  - override:
+      component: simple_led
+      file_id: simple_led_config
+      instance: led0
+    path: brd_mgm210_expansion/sl_simple_led_led0_config.h
+  - override:
+      component: simple_rgb_pwm_led
+      file_id: simple_rgb_pwm_led_config
+      instance: rgb_led0
+    path: brd_mgm210_expansion/sl_simple_rgb_pwm_led_rgb_led0_config.h
+  - override:
+      component: uartdrv_usart
+      file_id: uartdrv_usart_config
+      instance: vcom
+    path: brd_mgm210_expansion/sl_uartdrv_usart_vcom_config.h

@@ -9,3 +9,4 @@ sdk:
 component_path:
   - path: "component/Silabs"
   - path: "component/Zigbee"
+  - path: "hardware/board/component"
