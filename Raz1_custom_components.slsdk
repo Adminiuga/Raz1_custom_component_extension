@@ -1,9 +1,9 @@
 # Properties file for Simplicity Studio metadata
 id=uc.extension.raz1_custom_components
 
-version=0.0.1
+version=0.0.2
 
 label=Raz1 Custom Components
 description=My custom components and drivers
 
-prop.subLabel=Raz-1\\ Custom\\ Components\\ 0.0.1
+prop.subLabel=Raz-1\\ Custom\\ Components\\ 0.0.2
