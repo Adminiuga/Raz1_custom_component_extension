@@ -50,43 +50,59 @@ typedef struct {
   uint8_t capacity;
 } batt_cap_entry_t;
 
+typedef struct {
+  uint16_t milliV;
+} battery_update_t;
+
+static volatile battery_update_t _lastUpdateValues;
+static sl_zigbee_event_t batteryUpdatedEvent;
 
 // -----------------------------------------------------------------------------
 // Private variables
 static batt_cap_entry_t batt_volt_to_cap[] = SL_POWER_CONFIGURATION_BATTERY_VOLTAGE_CAPACITY;
 
+// -----------------------------------------------------------------------------
+// Forward declarations
+static uint8_t convert_voltage_to_capacity(uint16_t milliV);
+static void battery_update_handler(sl_zigbee_event_t *event);
 
 // ------------------------------------------------------------------------------
 // Component call backs
-WEAK(void emberAfPowerConfigurationClusterServerInitCallback(uint8_t endpoint))
+void emberAfPowerConfigurationClusterServerInitCallback(uint8_t endpoint)
+{
+  sl_zigbee_af_isr_event_init(&batteryUpdatedEvent, battery_update_handler);
+  emberAfPowerConfigClusterPrintln("Power Configuration Cluster: initialized");
+}
+
+SL_WEAK void emberAfPowerConfigurationClusterServerPostInitCallback(uint8_t endpoint)
 {
 }
 
-WEAK(void emberAfPowerConfigurationClusterBatteryUpdated(uint8_t endpoint,
+SL_WEAK void emberAfPowerConfigurationClusterBatteryUpdated(uint8_t endpoint,
                                                          uint8_t battery_double_percent,
-                                                         uint16_t battery_milliV))
+                                                         uint16_t battery_milliV)
 {
 }
-
-// ------------------------------------------------------------------------------
-// Forward declarations
-static uint8_t convert_voltage_to_capacity(uint16_t milliV);
-
 
 // ------------------------------------------------------------------------------
 // callbacks implementations
 void sl_battery_monitor_measurement_ready_cb(uint16_t milliV)
 {
-  uint8_t deciV = milliV / 100;
-  uint8_t i, endpoint;
-  EmberAfStatus afStatus;
+  _lastUpdateValues.milliV = milliV;
+  sl_zigbee_event_set_active(&batteryUpdatedEvent);
+}
 
-  uint8_t capacity = convert_voltage_to_capacity(milliV);
+void battery_update_handler(sl_zigbee_event_t *event)
+{
+  EmberAfStatus afStatus;
+  uint8_t deciV = _lastUpdateValues.milliV / 100;
+  uint8_t capacity = convert_voltage_to_capacity(_lastUpdateValues.milliV);
 
   sl_zigbee_app_debug_print("Power configuration cluster: reported voltage: %d dV", deciV);
   sl_zigbee_app_debug_println(", reported double battery %% remaining: %d%%", capacity);
 
-  for (i = 0; i < emberAfEndpointCount(); i++) {
+  uint8_t endpoint;
+  for (uint8_t i = 0; i < emberAfEndpointCount(); i++) {
     endpoint = emberAfEndpointFromIndex(i);
     // Update battery voltage
     if (emberAfContainsServer(endpoint, ZCL_POWER_CONFIG_CLUSTER_ID)) {
@@ -122,7 +138,7 @@ void sl_battery_monitor_measurement_ready_cb(uint16_t milliV)
                           afStatus);
       }
     }
-    emberAfPowerConfigurationClusterBatteryUpdated(endpoint, capacity, milliV);
+    emberAfPowerConfigurationClusterBatteryUpdated(endpoint, capacity, _lastUpdateValues.milliV);
   }
 }
 
