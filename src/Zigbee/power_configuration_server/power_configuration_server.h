@@ -83,4 +83,9 @@ void emberAfPowerConfigurationClusterBatteryUpdated(uint8_t endpoint,
 /** @} */ // end of name Callbacks
 /** @} */ // end of power-configuration-server
 
+/**
+ * @brief Called after the Power Configuration cluster is initialized.
+ */
+void emberAfPowerConfigurationClusterServerInitCallback(uint8_t endpoint);
+
 #endif // ZIGBEE_POWER_CONFIGURATION_SERVER_H

@@ -24,12 +24,6 @@ template_contribution:
   - name: component_catalog
     value: rz_button_press
 
-  - name: event_handler
-    value:
-      event: service_init
-      include: "rz_button.h"
-      handler: "rz_button_init"
-
 include:
   - path: rz_button
     file_list:
